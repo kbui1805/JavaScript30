@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>JS + CSS Clock</title>
   <link rel="icon" href="https://fav.farm/🔥" />
+  <script src="./main.js" defer></script>
 </head>
 <body>
 
@@ -63,6 +64,11 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0, 2.61, 0.42, 1.11);
+      
     }
 
   </style>
