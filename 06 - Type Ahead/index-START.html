@@ -18,6 +18,65 @@
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+const input_el = document.querySelector('.search');
+const form_suggestions_list = document.querySelector('ul.suggestions');
+
+let data_list = [];
+
+input_el.addEventListener("input", getSearch);
+
+function getSearch(e) {
+  let q_string = this.value;
+  // const list_item_el = document.querySelector('ul.suggestions');
+  // search_form_el.removeChild(list_item_el);
+
+  let pattern = new RegExp(`^${q_string}`, 'gi');
+  let result_city = searchResult(pattern);
+  // let data_city = await getData();
+  // let result_city = await data_city.filter((city) => pattern.test(city));
+  // let new_list_item_el = await appendListItem(result_city);
+  form_suggestions_list.innerHTML = appendListItem(result_city);
+  console.log(result_city);
+}
+
+function searchResult(search_pattern) {
+  return data_list.filter(city => {
+    return search_pattern.test(city);
+  })
+}
+
+// async function getData() {
+//   let data = await fetch(endpoint);
+//   let data_json = await data.json();
+//   let city_list = await data_json.map(({city}) => {
+//     return city;
+//   })
+//   return city_list;
+// }
+
+function appendListItem(city_list) {
+  let all_city = [...city_list];
+  let html_el = all_city.map(city => {
+    return `
+    <li>${city}</li>`;
+  }).join('');
+  console.log(html_el);
+  return html_el;
+}
+
+fetch(endpoint)
+.then((data) => {
+  return data.json();
+})
+.then((data_json) => {
+  let city_list = data_json.map(({city}) => {
+    return city;
+  })
+  data_list.push(...city_list);
+})
+.catch((err) => {
+  console.log(err);
+})
 </script>
 </body>
 </html>
